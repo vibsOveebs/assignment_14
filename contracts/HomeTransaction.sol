@@ -107,13 +107,23 @@ contract HomeTransaction {
     }
 
     function anyWithdrawFromTransaction() public {
-        require(buyer == msg.sender || finalizeDeadline <= now, "Only buyer can withdraw before transaction deadline");
+        require(
+            msg.sender == buyer || now >= finalizeDeadline,
+            "Only buyer can withdraw before deadline; anyone can trigger after"
+        );
 
         require(contractState == ContractState.WaitingFinalization, "Wrong contract state");
 
         contractState = ContractState.Rejected;
 
-        seller.transfer(deposit-realtorFee);
-        realtor.transfer(realtorFee);
+        // If the realtor fee is greater than the deposit, cap the fee to the deposit
+        // so we don't underflow/revert and can still settle the contract.
+        uint realtorCut = realtorFee;
+        if (realtorCut > deposit) {
+            realtorCut = deposit;
+        }
+
+        seller.transfer(deposit - realtorCut);
+        realtor.transfer(realtorCut);
     }
 }

