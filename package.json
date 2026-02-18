@@ -57,6 +57,9 @@
     "client": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
+    "test:server": "node --test server/tests/*.test.js",
+    "test:contracts": "hardhat test",
+    "test:all": "npm run test:server && npm run test:contracts",
     "eject": "echo \"Not Support eject\""
   },
   "eslintConfig": {
@@ -78,9 +81,12 @@
     ]
   },
   "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
+    "chai": "^4.4.1",
     "crypto-browserify": "^3.12.0",
+    "hardhat": "^2.22.18",
     "https-browserify": "^1.0.0",
     "os-browserify": "^0.3.0",
     "process": "^0.11.10",
