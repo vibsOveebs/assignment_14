@@ -71,8 +71,8 @@ describe('HomeTransaction', function () {
     const realtorBalAfter = await ethers.provider.getBalance(realtor.address);
 
     // fee capped to deposit, so seller gets 0 and realtor gets deposit
-    expect(sellerBalAfter.sub(sellerBalBefore)).to.equal(0);
-    expect(realtorBalAfter.sub(realtorBalBefore)).to.equal(deposit);
+    expect(sellerBalAfter.sub(sellerBalBefore).toString()).to.equal('0');
+    expect(realtorBalAfter.sub(realtorBalBefore).toString()).to.equal(deposit.toString());
     expect(await home.contractState()).to.equal(5); // Rejected
   });
 });
